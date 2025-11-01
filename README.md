@@ -66,12 +66,6 @@ MIT
 ✅ Notes:
 
 - Keep it updated as you add features (e.g., dynamic pages, API calls, components).  
-- You can include screenshots or GIFs under a `docs/` folder to make it more visual.  
-
----
-
-If you want, I can also **create a more “fancy” README** with badges, screenshots, and commands tailored for your Travel Journal project so it looks professional on GitHub.  
-
-Do you want me to do that?
+- You can include screenshots or GIFs under a `docs/` folder to make it more visual. 
 
 ```
