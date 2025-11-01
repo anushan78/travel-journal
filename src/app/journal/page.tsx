@@ -1,15 +1,16 @@
 import Link from "next/link";
-
-const journals = [
-  { id: 1, title: "Trip to Japan", date: "2023-04-15" },
-  { id: 2, title: "Exploring Italy", date: "2023-05-22" },
-  { id: 3, title: "Adventures in Canada", date: "2023-06-10" },
-];
+import { journals } from "./data";
 
 export default function JournalPage() {
   return (
     <main className="p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-semibold mb-4">My Trips</h1>
+      <Link
+        href="/journal/new"
+        className="inline-block mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+      >
+        Add New Journal
+      </Link>
       <ul className="space-y-3">
         {journals.map((journal) => (
           <li key={journal.id} className="border-b pb-2">
