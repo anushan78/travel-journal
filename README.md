@@ -65,7 +65,6 @@ MIT
 
 ✅ Notes:
 
-- Keep it updated as you add features (e.g., dynamic pages, API calls, components).  
-- You can include screenshots or GIFs under a `docs/` folder to make it more visual. 
+- New features (dynamic pages, API calls, components).  
 
 ```
