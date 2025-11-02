@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
-import { journals, JournalEntry } from "../../data";
+import { journals } from "../../data";
 import { notFound } from "next/navigation";
+import EntryCard from "@/components/journal/EntryCard";
 
 interface EditJournalPageProps {
   params: Promise<{
@@ -37,51 +38,7 @@ export default async function EditJournal({ params }: EditJournalPageProps) {
   return (
     <main className="p-4 max-w-xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Edit Journal Entry</h1>
-      <form action={updateJournal} className="space-y-4">
-        <div>
-          <input type="hidden" name="id" value={journalId} />
-          <label className="block mb-1 font-medium" htmlFor="title">
-            Title
-          </label>
-          <input
-            type="text"
-            name="title"
-            defaultValue={journal.title}
-            className="w-full border p-2 rounded"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium" htmlFor="date">
-            Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            defaultValue={journal.date}
-            className="w-full border p-2 rounded"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1 font-medium" htmlFor="content">
-            Content
-          </label>
-          <textarea
-            name="content"
-            rows={6}
-            defaultValue={journal.content}
-            className="w-full border p-2 rounded h-40"
-            required
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-        >
-          Save Changes
-        </button>
-      </form>
+      <EntryCard initialData={journal} action={updateJournal} />
     </main>
   );
 }
