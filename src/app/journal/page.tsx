@@ -1,7 +1,19 @@
 import Link from "next/link";
-import { journals } from "./data";
+import { JournalEntry } from "./data";
 
-export default function JournalPage() {
+async function fetchJournals(): Promise<JournalEntry[]> {
+  const response = await fetch("http://localhost:3000/api/journals", {
+    cache: "no-store",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch journals");
+  }
+  return response.json();
+}
+
+export default async function JournalPage() {
+  const journals = await fetchJournals();
+
   return (
     <main className="p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-semibold mb-4">My Trips</h1>
