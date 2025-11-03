@@ -5,21 +5,21 @@ import EntryCard from "@/components/journal/EntryCard";
 async function createJournalEntry(formData: FormData) {
   "use server"; //Required for server actions
 
-  const title = formData.get("title")?.toString() ?? "";
-  const date = formData.get("date")?.toString() ?? "";
-  const content = formData.get("content")?.toString() ?? "";
-
-  if (!title || !date || !content) return;
-
-  const newEntry: JournalEntry = {
-    id: journals.length + 1,
-    title,
-    date,
-    content,
+  const entry = {
+    title: formData.get("title") as string,
+    content: formData.get("content") as string,
+    date: new Date().toISOString(),
   };
 
-  journals.push(newEntry);
-  redirect(`/journal/${newEntry.id}`);
+  await fetch("http://localhost:3000/api/journals", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(entry),
+  });
+
+  redirect("/journal");
 }
 
 export default function NewJournalPage() {

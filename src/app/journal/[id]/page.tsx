@@ -1,26 +1,26 @@
-import { notFound, redirect } from "next/navigation";
-import { journals } from "../data";
+import { notFound } from "next/navigation";
+import { JournalEntry } from "../data";
+import { deleteJournal } from "@/app/actions/journals";
 
 interface JournalPageProps {
   params: Promise<{ id: string }>;
 }
 
-async function deleteJournal(formData: FormData) {
-  "use server";
-  const id = Number(formData.get("id"));
-  console.log("Deleting journal with id:", id);
-  const index = journals.findIndex((j) => j.id === id);
-  if (index !== -1) {
-    journals.splice(index, 1);
-    redirect("/journal");
+export async function getJournalById(id: number): Promise<JournalEntry | null> {
+  const res = await fetch(`http://localhost:3000/api/journals`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    return null;
   }
-  // Placeholder for delete logic
-  console.log(`Journal with id ${id} deleted.`);
+  const data: JournalEntry[] = await res.json();
+  return data.find((journal) => journal.id === id) || null;
 }
 
 export default async function JournalDetail({ params }: JournalPageProps) {
   const { id } = await params;
-  const journal = journals.find((j) => j.id === Number(id));
+  const journal = await getJournalById(Number(id));
+  console.log(journal);
 
   if (!journal) {
     notFound();
