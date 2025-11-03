@@ -11,11 +11,12 @@ interface EditJournalPageProps {
 // Server action to update the journal entry
 async function updateJournal(formdata: FormData): Promise<void> {
   "use server";
-
+  console.log("Form Data received in server action:", formdata);
   const id = Number(formdata.get("id"));
   const res = await fetch(`http://localhost:3000/api/journals`, {
     cache: "no-store",
   });
+
   if (!res.ok) {
     return;
   }
@@ -28,6 +29,14 @@ async function updateJournal(formdata: FormData): Promise<void> {
   journal.title = formdata.get("title")?.toString() || journal.title;
   journal.date = formdata.get("date")?.toString() || journal.date;
   journal.content = formdata.get("content")?.toString() || journal.content;
+
+  await fetch(`http://localhost:3000/api/journals`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(journal),
+  });
 
   redirect(`/journal/${id}`);
 }

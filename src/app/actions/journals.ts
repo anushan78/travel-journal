@@ -7,12 +7,9 @@ export async function deleteJournal(formData: FormData) {
   if (!id) {
     throw new Error("Journal ID is required for deletion.");
   }
-  await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/journals?id=${id}`,
-    {
-      method: "DELETE",
-    }
-  );
+  await fetch(`http://localhost:3000/api/journals?id=${id}`, {
+    method: "DELETE",
+  });
   redirect("/journal");
 }
 
@@ -24,7 +21,7 @@ export async function updateJournal(id: number, formData: FormData) {
     content: formData.get("content")?.toString() ?? "",
   };
 
-  await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/journals`, {
+  await fetch(`http://localhost:3000/api/journals`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
