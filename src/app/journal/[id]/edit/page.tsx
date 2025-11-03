@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
-import { journals } from "../../data";
-import { notFound } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
+import { JournalEntry } from "../../data";
 import EntryCard from "@/components/journal/EntryCard";
 
 interface EditJournalPageProps {
@@ -10,11 +9,18 @@ interface EditJournalPageProps {
 }
 
 // Server action to update the journal entry
-async function updateJournal(formdata: FormData) {
+async function updateJournal(formdata: FormData): Promise<void> {
   "use server";
 
   const id = Number(formdata.get("id"));
-  const journal = journals.find((j) => j.id === id);
+  const res = await fetch(`http://localhost:3000/api/journals`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    return;
+  }
+  const data: JournalEntry[] = await res.json();
+  const journal = data.find((entry) => entry.id === id) || null;
   if (!journal) {
     return;
   }
@@ -29,7 +35,14 @@ async function updateJournal(formdata: FormData) {
 export default async function EditJournal({ params }: EditJournalPageProps) {
   const { id } = await params;
   const journalId = parseInt(id, 10);
-  const journal = journals.find((j) => j.id === journalId);
+  const res = await fetch(`http://localhost:3000/api/journals`, {
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    notFound();
+  }
+  const data: JournalEntry[] = await res.json();
+  const journal = data.find((entry) => entry.id === journalId) || null;
 
   if (!journal) {
     notFound();

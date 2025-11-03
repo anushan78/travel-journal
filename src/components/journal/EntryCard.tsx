@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent, useTransition } from "react";
+import { FormEvent, useTransition } from "react";
 
 interface EntryCardProps {
   action: (formData: FormData) => Promise<void>;
